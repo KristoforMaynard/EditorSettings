@@ -1,0 +1,95 @@
+{
+	"added_words":
+	[
+		"dayside",
+		"Magnetopause",
+		"Maxwells",
+		"Elphic",
+		"magnetospheric",
+		"subsolar",
+		"separatrices"
+	],
+	"auto_complete": false,
+	"auto_complete_commit_on_tab": false,
+	"auto_indent": true,
+	"auto_match_enabled": false,
+	"caret_style": "solid",
+	"close_windows_when_empty": true,
+	"color_scheme": "Packages/User/xkod_dark.tmTheme",
+	"copy_with_empty_selection": false,
+	"detect_indentation": true,
+	"draw_white_space": "selection",
+	"emacs_tabstops_convert_on_save": "auto",
+	"ensure_newline_at_eof_on_save": true,
+	"file_exclude_patterns":
+	[
+		".DS_Store",
+		"*.pyc",
+		"*.pyo"
+	],
+	"find_selected_text": true,
+	"folder_exclude_patterns":
+	[
+		".*",
+		"__pycache__"
+	],
+	"font_face": "Menlo",
+	"font_options":
+	[
+		"subpixel_antialias"
+	],
+	"font_size": 12,
+	"highlight_modified_tabs": true,
+	"ignored_packages":
+	[
+		"Anaconda",
+		"Emacs Tabstops",
+		"Kite",
+		"PlatformSettings",
+		"Python"
+	],
+	"ignored_words":
+	[
+		"magnetopause",
+		"magnetosheath"
+	],
+	"indent_guide_options":
+	[
+	],
+	"indent_subsequent_lines": true,
+	"indent_to_bracket": true,
+	"index_exclude_patterns":
+	[
+		"*.h5",
+		"*.xdmf"
+	],
+	"line_padding_bottom": 0,
+	"line_padding_top": 1,
+	"linux":
+	{
+		"font_face": "DejaVu Sans Mono",
+		"font_size": 10
+	},
+	"match_brackets": true,
+	"match_brackets_content": false,
+	"open_files_in_new_window": true,
+	"preview_on_click": false,
+	"rulers":
+	[
+		79
+	],
+	"scroll_past_end": true,
+	"shift_tab_unindent": false,
+	"show_definitions": true,
+	"show_errors_inline": false,
+	"smart_indent": true,
+	"spell_check": false,
+	"tab_completion": true,
+	"tab_size": 2,
+	"theme": "Soda Dark 3.sublime-theme",
+	"translate_tabs_to_spaces": true,
+	"trim_automatic_white_space": false,
+	"trim_trailing_white_space_on_save": true,
+	"vintage_ctrl_keys": true,
+	"vintageous_reset_mode_when_switching_tabs": false
+}

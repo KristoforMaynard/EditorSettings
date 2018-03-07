@@ -1,0 +1,7 @@
+{
+  "shell_cmd": "/Users/kmaynard/Library/anaconda/envs/viscid27/bin/python -u \"$file\"",
+  "file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+  "selector": "source.python",
+
+  "env": {"PYTHONIOENCODING": "utf-8"},
+}

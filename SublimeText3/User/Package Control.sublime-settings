@@ -1,0 +1,28 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"Anaconda",
+		"Chmod",
+		"CoffeeAngular Syntax",
+		"Emacs Tabstops",
+		"HexViewer",
+		"IcedCoffeeScript",
+		"LaTeXTools",
+		"MagicPython",
+		"Markdown Preview",
+		"Messages",
+		"MessagesPylint",
+		"MessagesSublemake",
+		"Package Control",
+		"PackageResourceViewer",
+		"PlatformSettings",
+		"SublimeGit",
+		"Theme - Soda",
+		"UnicodeMath",
+		"Vintage YankStack"
+	]
+}

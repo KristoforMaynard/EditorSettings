@@ -1,0 +1,11 @@
+[
+  {
+      "caption": "Git: Push Tags",
+      "command": "git_custom",
+      "args": {
+          "cmd": "push origin --tags",
+          "output": "panel",
+          "async": true
+      }
+  }
+]

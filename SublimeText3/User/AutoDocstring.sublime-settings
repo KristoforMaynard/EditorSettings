@@ -1,0 +1,17 @@
+{
+  "default_description": "Description",
+  "default_summary": "Summary",
+  "default_type": "TYPE",
+  // "default_return_name": "RetName",
+  // "default_qstyle": "'''",
+  "extra_class_newlines": false,
+  "optional_tag": "",
+  "sort_class_attributes": true,
+  "sort_exceptions": true,
+  "sort_module_attributes": true,
+  "style": "auto_google",
+  "template_order": true,
+  "use_snippet": true,
+  "start_with_newline": false,
+  "keep_previous": false
+}

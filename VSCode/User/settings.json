@@ -1,0 +1,40 @@
+{
+    "editor.minimap.enabled": false,
+    "editor.renderLineHighlight": "gutter",
+    "editor.selectionHighlight": true,
+    "editor.occurrencesHighlight": false,
+    "editor.cursorBlinking": "solid",
+    "editor.autoClosingBrackets": false,
+    "editor.renderIndentGuides": false,
+    "editor.acceptSuggestionOnEnter": "off",
+    "editor.lineHeight": 0,
+    "editor.formatOnPaste": false,
+    "editor.rulers": [80,120],
+    // "editor.renderWhitespace": "boundary", 
+    "files.insertFinalNewline": true,
+    "files.exclude": {
+        ".vscode": true,
+        "*.sublime-*": true,
+        "**/._*": true,
+        "**/__pycache__": true,
+        "**/*.pyc": true,
+        "**/*.pyo": true,
+    },
+    "workbench.statusBar.feedback.visible": false,
+    "jupyter.appendResults": true,
+    "vim.startInInsertMode": true,
+    "vim.overrideCopy": false,
+    "vim.showmodename": false,
+    "editor.tokenColorCustomizations": {
+    },
+    "workbench.colorCustomizations": {
+        // "statusBar.background": "#333333",
+        // "[Dark+ (default dark)]": {
+        //     "statusBar.background": "#660000"
+        // },
+    },
+    "workbench.activityBar.visible": false,
+    "explorer.confirmDelete": false,
+    "workbench.startupEditor": "newUntitledFile",
+    "workbench.colorTheme": "XKod-Dark"
+}

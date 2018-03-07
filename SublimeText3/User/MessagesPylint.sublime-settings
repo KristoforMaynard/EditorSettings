@@ -1,0 +1,38 @@
+{
+  "priority": 0,
+  "enabled": false,
+  "pylint_bin": {
+    "#multiconf#": [
+      // {"os:osx": "/Users/kmaynard/local/anaconda/envs/py35/bin/pylint"},
+      {"os:osx": "/Users/kmaynard/local/anaconda/bin/pylint"},
+      // {"os:osx": "/Users/kmaynard/Library/anaconda/envs/py3k/bin/pylint"},
+      {"os:linux": "/home/kmaynard/local/anaconda/bin/pylint"},
+    ]
+  },
+  // "pylint_bin": "/Users/kmaynard/Library/anaconda/envs/py3k/bin/pylint",
+  "ignore": [],
+  "disable": [
+    "E1101", // dynamic library no member bug (numpy)
+    "I0011", // Ignoring pylint message
+    "W0511", // W0511: TODO
+    "W1202", // W1202: logging-format-interpolation
+    "C0111", // C0111: Missing docstring
+    "C0112", // C0111: Empty docstring
+    "C0103", // C0103: Invalid name
+    "C0330", // C0330: bad-continuation
+    "R0901", // Too many ancestors
+    "R0902", // Too many instance attributes
+    "R0903", // R0903: Too few public methods (x/2)
+    "R0904", // R0904: Too many public methods (x/20)
+    "R0913", // R0913: Too many arguments (x/5)
+    "R0912", // Too many branches
+    "R0914", // Too many local variables
+    "R0915", // Too many statements
+    "R0921", // R0921: Abstract class not referenced
+    "star-args"
+  ]
+  // "run_on_save": true,
+  // "use_icons": true,
+  // "disable_outline": true,
+  // "verbose": false,
+}

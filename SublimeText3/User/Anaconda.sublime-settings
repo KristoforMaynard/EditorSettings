@@ -1,0 +1,18 @@
+{
+  "anaconda_tooltip_theme": "dark",
+  "enable_signatures_tooltip": false,
+  "enable_docstrings_tooltip": true,
+  "merge_signatures_and_doc": false,
+  "auto_python_builder_enabled": false,
+  "disable_anaconda_completion": false,
+  "suppress_word_completions": true,
+  "suppress_explicit_completions": true,
+  "complete_parameters": false,
+  "complete_all_parameters": false,
+  "display_signatures": false,
+  "auto_formatting": false,
+  "anaconda_linting": true,
+  "anaconda_linting_behaviour": "always",
+  "use_pylint": true,
+  "pep8": true,
+}

@@ -1,0 +1,27 @@
+{
+    "name": "xkod",
+    "displayName": "XKod",
+    "description": "Themes based on old Kod editor",
+    "version": "0.0.1",
+    "publisher": "kmaynard",
+    "engines": {
+        "vscode": "^1.20.0"
+    },
+    "categories": [
+        "Themes"
+    ],
+    "contributes": {
+        "themes": [
+            {
+                "label": "XKod-Dark",
+                "uiTheme": "vs-dark",
+                "path": "./themes/XKod-Dark-color-theme.json"
+            },
+            {
+                "label": "XKod-Light",
+                "uiTheme": "vs",
+                "path": "./themes/XKod-Light-color-theme.json"
+            }
+        ]
+    }
+}

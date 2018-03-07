@@ -1,0 +1,71 @@
+[
+  { "keys": ["g", "t"], "command": "next_view",
+      "context":
+      [
+          { "key": "setting.command_mode", "operand": true },
+          { "key": "setting.is_widget", "operand": false }
+      ]
+  },
+
+  { "keys": ["g", "T"], "command": "prev_view",
+      "context":
+      [
+          { "key": "setting.command_mode", "operand": true },
+          { "key": "setting.is_widget", "operand": false }
+      ]
+  },
+
+  { "keys": ["super+alt+left"], "command": "jump_back" },
+  { "keys": ["super+alt+right"], "command": "jump_forward" },
+
+  { "keys": ["ctrl+alt+up"], "command": "select_lines", "args": {"forward": false} },
+  { "keys": ["ctrl+alt+down"], "command": "select_lines", "args": {"forward": true} },
+
+  // this will override vintage ctrl+c so i'm not always going into
+  // command mode
+  { "keys": ["ctrl+c"], "command": "exec", "args": {"kill": true} },
+
+  { "keys": ["alt+tab"], "command": "reindent", "args": {"single_line": true} },
+  { "keys": ["shift+alt+tab"], "command": "reindent", "args": {"single_line": false} },
+
+  // { "keys": ["super+]"], "command": "next_view" },
+  // { "keys": ["super+["], "command": "prev_view" },
+  // { "keys": ["super+shift+]"], "command": "indent" },
+  // { "keys": ["super+shift+["], "command": "unindent" },
+  // { "keys": ["super+b"], "command": "build" },
+  // { "keys": ["super+shift+b"], "command": "build_switcher" },
+  { "keys": ["ctrl+super+b"], "command": "show_panel", "args": {"panel": "output.exec"} },
+
+  // { "keys": ["super+alt+b"],
+  //   "command": "run_multiple_commands",
+  //   "args": {
+  //     "commands": [
+  //       {"command": "set_build_system", "args": {"file": ""}, "context": "window"},
+  //       {"command": "build", "context": "window"}
+  //     ]
+  //   }
+  // },
+
+  // { "keys": ["ctrl+alt+m"],
+  //   "command": "markdown_preview",
+  //   "args": {"target": "browser", "parser":"github"}
+  // }
+
+  // { "keys": ["super+alt+b"], "command": "run_multiple_commands",
+  //   "args": {
+  //     "commands": [
+  //       {"command": "set_build_system", "args": {"file": ""}},
+  //       {"command": "build", "args": {}}
+  //     ]
+  //   }
+  // }
+  // { "keys": ["super+alt+i"], "command": "toggle_overwrite"},
+
+
+  // // for the UnicodeMath plugin... this plugin is pretty cool
+  { "keys": [" "], "command": "insert", "args": {"characters": " "} },
+  // { "keys": ["tab"], "context": [ {"key": "unicode_math_syntax_allowed"}, {"key": "unicode_math_can_convert"} ], "command": "unicode_math_convert" },
+  // { "keys": ["tab"], "context": [ {"key": "unicode_math_syntax_allowed"}, {"key": "unicode_math_can_convert"} ], "command": "unicode_math_complete" },
+
+  { "keys": ["super+s"], "command": "save" },
+]

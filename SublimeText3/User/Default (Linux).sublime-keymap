@@ -1,0 +1,12 @@
+[
+  { "keys": ["ctrl+shift+b"], "command": "build_switcher" },
+  { "keys": ["ctrl+alt+b"],
+    "command": "run_multiple_commands",
+    "args": {
+      "commands": [
+        {"command": "set_build_system", "args": {"file": ""}, "context": "window"},
+        {"command": "build", "context": "window"}
+      ]
+    }
+  }
+]

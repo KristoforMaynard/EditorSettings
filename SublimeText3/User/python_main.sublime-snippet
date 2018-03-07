@@ -1,0 +1,22 @@
+<snippet>
+  <content><![CDATA[
+#!/usr/bin/env python
+
+from __future__ import division, print_function
+import sys
+
+
+def _main():
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(_main())
+
+##
+## EOF
+##
+
+]]></content>
+  <tabTrigger>!python_main</tabTrigger>
+  <!-- <scope>source.python</scope> -->
+</snippet>
