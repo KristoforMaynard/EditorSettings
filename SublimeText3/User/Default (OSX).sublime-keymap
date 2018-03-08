@@ -68,4 +68,21 @@
   // { "keys": ["tab"], "context": [ {"key": "unicode_math_syntax_allowed"}, {"key": "unicode_math_can_convert"} ], "command": "unicode_math_complete" },
 
   { "keys": ["super+s"], "command": "save" },
+
+  // Make TerminalView work
+  {"keys": ["ctrl+c"], "command": "terminal_view_keypress",
+    "args": {"key": "c", "ctrl": true},
+    "context": [{"key": "setting.terminal_view"}]
+  },
+
+  // TerminalViewAddon
+  { "keys": ["super+k", "super+t"],
+    "command": "split_open_terminal_view",
+    "args": {"direction": "down"}
+  },
+  { "keys": ["super+alt+b"],
+    "command": "run_in_terminal_view",
+    "args": {"split_view": true,
+             "direction": "down"}
+  }
 ]

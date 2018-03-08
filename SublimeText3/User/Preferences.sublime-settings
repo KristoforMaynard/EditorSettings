@@ -73,6 +73,7 @@
 	"match_brackets": true,
 	"match_brackets_content": false,
 	"open_files_in_new_window": true,
+	"origami_auto_close_empty_panes": true,
 	"preview_on_click": false,
 	"rulers":
 	[

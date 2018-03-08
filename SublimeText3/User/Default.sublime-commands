@@ -1,0 +1,11 @@
+[
+  { "command": "split_open_terminal_view",
+    "args": {"direction": "down"},
+    "caption": "Open New Terminal (Below)"
+  },
+  { "command": "run_in_terminal_view",
+    "args": {"split_view": True,
+             "direction": "down"},
+    "caption": "Run File In Terminal (Below)"
+  }
+]
