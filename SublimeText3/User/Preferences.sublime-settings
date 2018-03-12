@@ -33,12 +33,6 @@
 		".*",
 		"__pycache__"
 	],
-	"font_face": "Menlo",
-	"font_options":
-	[
-		"subpixel_antialias"
-	],
-	"font_size": 12,
 	"highlight_modified_tabs": true,
 	"ignored_packages":
 	[
@@ -65,15 +59,22 @@
 	],
 	"line_padding_bottom": 0,
 	"line_padding_top": 1,
-	"linux":
-	{
-		"font_face": "DejaVu Sans Mono",
-		"font_size": 10
-	},
 	"match_brackets": true,
 	"match_brackets_content": false,
 	"open_files_in_new_window": true,
 	"origami_auto_close_empty_panes": true,
+	"plat.linux": {
+		"font_face": "DejaVu Sans Mono",
+		"font_size": 10,
+	},
+	"plat.osx": {
+		"font_face": "Menlo",
+		"font_size": 12,
+		"font_options":
+		[
+			"subpixel_antialias"
+		],
+	},
 	"preview_on_click": false,
 	"rulers":
 	[

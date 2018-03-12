@@ -1,11 +1,17 @@
-# https://github.com/quarnster/PlatformSettings/blob/master/platform_settings.py
+# from https://github.com/quarnster/PlatformSettings
+# FIXME: discover level? {default, user, syntax, project} with appropriate
+#        overriding behavior
+# FIXME: platform specific settings at any level clobber project settings
+
 import sublime
 import sublime_plugin
 
 class PlatformSettingsEventListener(sublime_plugin.EventListener):
     def check_settings(self, view, first=False):
         s = view.settings()
-        default_keys = ["${platform}", "user_${platform}"]
+        default_keys = ["plat.${platform}", "plat.${platform}.user",
+                        "plat.${platform}.syntax", "plat.${platform}.project",
+                        "plat.${platform}.force"]
         keys = s.get("platform_settings_keys", default_keys)
         if not keys:
             keys = default_keys
@@ -27,15 +33,21 @@ class PlatformSettingsEventListener(sublime_plugin.EventListener):
                 s.set(key, value)
 
         def on_change():
+            # print("PlatformSettingsEventListener:: on_change (closure)", view)
             self.check_settings(view)
+
         s.set("platform_settings_was_here", True)
-        s.add_on_change("platform_settings", lambda: sublime.set_timeout(on_change, 0))
+        s.add_on_change("platform_settings",
+                        lambda: sublime.set_timeout(on_change, 0))
 
     def on_activated(self, view):
+        # print("PlatformSettingsEventListener:: on_activated")
         self.check_settings(view)
 
     def on_new(self, view):
+        # print("PlatformSettingsEventListener:: on_new")
         self.check_settings(view, True)
 
     def on_load(self, view):
+        # print("PlatformSettingsEventListener:: on_load")
         self.check_settings(view, True)
