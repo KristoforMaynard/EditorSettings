@@ -80,9 +80,9 @@
     "command": "split_open_terminal_view",
     "args": {"direction": "down"}
   },
-  { "keys": ["super+alt+b"],
-    "command": "run_in_terminal_view",
-    "args": {"split_view": true,
-             "direction": "down"}
-  }
+  // { "keys": ["super+alt+b"],
+  //   "command": "run_in_terminal_view",
+  //   "args": {"split_view": true,
+  //            "direction": "down"}
+  // }
 ]

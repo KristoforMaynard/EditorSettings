@@ -1,0 +1,7 @@
+{
+  "target": "run_in_terminal_view",
+  // "target_file": "$file",  // this doesn't autocomplete... annoying
+  "working_dir": "$file_path",  // $project_path
+  "split_view": true,
+  "close_on_finished": false,
+}

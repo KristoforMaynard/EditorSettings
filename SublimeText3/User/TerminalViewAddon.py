@@ -41,13 +41,16 @@ def argmin(seq):
 
 
 class SplitOpenTerminalView(sublime_plugin.WindowCommand):
-    def run(self, direction="down", always_split=False, do_exec=False,
-            **kwargs):
+    def run(self, direction="down", always_split=False, split_fraction=0.35,
+            do_exec=False, **kwargs):
         window = self.window
 
         direction = direction.strip().lower()
         if direction not in ('up', 'down', 'left', 'right'):
             raise ValueError("bad direction: {0}".format(direction))
+
+        if 'working_dir' in kwargs:
+            kwargs['cwd'] = kwargs.pop('working_dir')
 
         TerminalView, origami = import_companions()
 
@@ -111,19 +114,29 @@ class SplitOpenTerminalView(sublime_plugin.WindowCommand):
             if do_split:
                 window.run_command("create_pane", args={"direction": direction,
                                                         "give_focus": True})
-                window.run_command("zoom_pane", args={"fraction": 0.35})
+                window.run_command("zoom_pane", args={"fraction": split_fraction})
 
+            # print("????", kwargs)
             if do_exec:
-                window.run_command("terminal_view_exec", args=kwargs)
+                kwargs['working_dir'] = kwargs.pop('cwd', None)
+                sublime.error_message("TerminalViewAddon: don't use do_exec")
+                # window.run_command("terminal_view_exec", args=kwargs)
             else:
                 window.run_command("terminal_view_open", args=kwargs)
 
 
 
-def make_cmd(window, wrap_bash=True):
+def make_cmd(window, wrap_bash=True, filename=None, close_on_finished=False):
     v = window.extract_variables()
-    filename = v['file']
     platform = v['platform'].strip().lower()
+    if filename is None:
+        filename = v['file']
+
+    if close_on_finished:
+        wrap_bash = True
+        next_cmd = '; logout'
+    else:
+        next_cmd = ''
 
     root, ext = os.path.splitext(os.path.basename(filename))
     ext = ext.strip().lower()
@@ -136,7 +149,8 @@ def make_cmd(window, wrap_bash=True):
         elif (root.strip().lower(), ext) == ('makefile', ''):
             runwith = 'make'
         else:
-            sublime.error_message("Not sure how to run: {0}".format(filename))
+            # sublime.error_message("Not sure how to run: {0}".format(filename))
+            runwith = ''
 
     if platform in ('osx', 'linux'):
         if runwith:
@@ -145,7 +159,7 @@ def make_cmd(window, wrap_bash=True):
             cmd = '"{0}"'.format(filename)
 
         if wrap_bash:
-            cmd = "bash -lc '{0}'".format(cmd)
+            cmd = "bash -lc '{0}'{1}".format(cmd, next_cmd)
     else:
         sublime.error_message("TerminalViewAddon does not work on platform "
                               "'{0}'".format(platform))
@@ -155,15 +169,24 @@ def make_cmd(window, wrap_bash=True):
 
 
 class RunInTerminalView(sublime_plugin.WindowCommand):
-    def run(self, split_view=False, **kwargs):
-        term_open_cmd = "split_open_terminal" if split_view else "terminal_view_open"
-        if False:  # pylint: disable=using-constant-test
-            cmd = make_cmd(self.window, wrap_bash=False)
+    def run(self, target_file=None, split_view=False, close_on_finished=False,
+            do_exec=False, **kwargs):
+        # kwargs.pop("name", None)
+
+        if split_view:
+            term_open_cmd = "split_open_terminal_view"
+        else:
+            term_open_cmd = "terminal_view_open"
+
+        if do_exec:
+            cmd = make_cmd(self.window, wrap_bash=False, filename=target_file,
+                           close_on_finished=close_on_finished)
             kwargs['do_exec'] = True
-            kwargs['cmd'] = cmd
+            kwargs['shell_cmd'] = cmd
             self.window.run_command(term_open_cmd, args=kwargs)
         else:
-            cmd = make_cmd(self.window, wrap_bash=False)
+            cmd = make_cmd(self.window, wrap_bash=False, filename=target_file,
+                           close_on_finished=close_on_finished)
             self.window.run_command(term_open_cmd, args=kwargs)
             time.sleep(0.0)
             self.window.run_command("terminal_view_send_string",
