@@ -82,8 +82,10 @@ class SplitOpenTerminalView(sublime_plugin.WindowCommand):
             elif direction == 'right':
                 extreme_group = [tup[2] for tup in cells].index(argmax(cols))
 
-            extreme_group_has_views = bool(window.views_in_group(extreme_group))
-
+            extreme_group_views = window.views_in_group(extreme_group)
+            extreme_group_has_views = bool(extreme_group_views)
+            extreme_group_has_terminal = any(view.settings().has('terminal_view_activate_args')
+                                             for view in extreme_group_views)
             # print("cells:", cells)
             # print("current_cell:", current_cell)
             # print("rows:", rows)
@@ -93,10 +95,13 @@ class SplitOpenTerminalView(sublime_plugin.WindowCommand):
             # print("extreme_group_has_views", extreme_group_has_views)
             # print("adjacent_cells", adjacent_cells)
 
+            # this logic is becoming silly...
             if always_split:
                 do_split, start_from = True, extreme_group
             elif lone_in_direction and not extreme_group_has_views:
                 do_split, start_from = True, extreme_group
+            elif extreme_group_has_terminal:
+                do_split, start_from = False, extreme_group
             elif not extreme_group_has_views:
                 do_split, start_from = False, extreme_group
             else:
