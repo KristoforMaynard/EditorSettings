@@ -4,7 +4,7 @@
     "caption": "Open New Terminal (Below)"
   },
   { "command": "run_in_terminal_view",
-    "args": {"split_view": True,
+    "args": {"split_view": true,
              "direction": "down"},
     "caption": "Run File In Terminal (Below)"
   }
