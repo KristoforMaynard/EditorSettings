@@ -10,7 +10,13 @@
     }
   },
   // // for the UnicodeMath plugin... this plugin is pretty cool
-  { "keys": ["space"], "command": "insert", "args": {"characters": " "} },
+  // { "keys": ["space"], "command": "insert", "args": {"characters": " "} },
+  { "keys": [" "],
+    "context": [ {"key": "unicode_math_syntax_allowed"},
+                 {"key": "unicode_math_can_convert"} ],
+    "command": "insert",
+    "args": {"characters": " "}
+  },
   // TerminalViewAddon
   { "keys": ["ctrl+k", "ctrl+t"],
     "command": "split_open_terminal_view",
