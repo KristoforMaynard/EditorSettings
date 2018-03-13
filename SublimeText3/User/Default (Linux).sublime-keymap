@@ -8,7 +8,9 @@
         {"command": "build", "context": "window"}
       ]
     }
-  }
+  },
+  // // for the UnicodeMath plugin... this plugin is pretty cool
+  { "keys": ["space"], "command": "insert", "args": {"characters": " "} },
   // TerminalViewAddon
   { "keys": ["ctrl+k", "ctrl+t"],
     "command": "split_open_terminal_view",
