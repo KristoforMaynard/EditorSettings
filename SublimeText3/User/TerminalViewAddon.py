@@ -10,6 +10,7 @@
 # cmd+alt+shift+w, prev pane?
 
 import os
+import subprocess
 import time
 
 import sublime
@@ -29,6 +30,11 @@ def import_companions():
 
     return TerminalView, origami
 
+
+class NotATerminal(TypeError):
+    pass
+
+
 def _emit_no_origami_msg():
     sublime.error_message("The Origami plugin must be installed to "
                           "split-open a terminal window")
@@ -42,7 +48,7 @@ def argmin(seq):
 
 class SplitOpenTerminalView(sublime_plugin.WindowCommand):
     def run(self, direction="down", always_split=False, split_fraction=0.35,
-            do_exec=False, **kwargs):
+            use_available=False, do_exec=False, **kwargs):
         window = self.window
 
         direction = direction.strip().lower()
@@ -99,6 +105,26 @@ class SplitOpenTerminalView(sublime_plugin.WindowCommand):
             # print("adjacent_cells", adjacent_cells)
 
             # this logic is becoming silly...
+            if use_available:
+                groups_to_check = list(range(window.num_groups()))
+                groups_to_check.pop(extreme_group)
+                groups_to_check.insert(0, extreme_group)
+                available_view = None
+                for group in groups_to_check:
+                    try:
+                        active_view = window.active_view_in_group(group)
+                        if view_is_available_terminal(active_view):
+                            available_view = active_view
+                            break
+                    except NotATerminal:
+                        pass
+                if available_view is not None:
+                    window.focus_view(available_view)
+                    window.run_command("terminal_view_keypress",
+                                       args={"key": "u", "ctrl": True})
+                    # FIXME: returning early here is poor form
+                    return
+
             if always_split:
                 do_split, start_from = True, extreme_group
             elif lone_in_direction and not extreme_group_has_views:
@@ -116,14 +142,12 @@ class SplitOpenTerminalView(sublime_plugin.WindowCommand):
                                                         "give_focus": True})
                 window.run_command("zoom_pane", args={"fraction": split_fraction})
 
-            # print("????", kwargs)
             if do_exec:
                 kwargs['working_dir'] = kwargs.pop('cwd', None)
                 sublime.error_message("TerminalViewAddon: don't use do_exec")
                 # window.run_command("terminal_view_exec", args=kwargs)
             else:
                 window.run_command("terminal_view_open", args=kwargs)
-
 
 
 def make_cmd(window, wrap_bash=True, filename=None, close_on_finished=False):
@@ -168,10 +192,37 @@ def make_cmd(window, wrap_bash=True, filename=None, close_on_finished=False):
     return cmd
 
 
+def _pid_tty_of_view(view):
+    TerminalView, _ = import_companions()
+    t = TerminalView.TerminalView.TerminalViewManager.load_from_id(view.id())
+    if t is None:
+        term_pid = None
+        tty = None
+    else:
+        term_pid = str(t._shell._shell_pid)
+        tty = subprocess.check_output(['ps', '-p', term_pid, '-o', 'tt']
+                                      ).decode().splitlines()[1].strip()
+    return term_pid, tty
+
+def _pids_stats_in_tty(term_pid, tty):
+    info = subprocess.check_output(['ps', '-t', tty, '-o', 'pid', '-o', 'stat',
+                                    '-o', 'command']).decode().splitlines()[1:]
+    info = [s.strip() for s in info if not s.strip().startswith(term_pid)]
+    child_pids = [s.split()[0].strip() for s in info]
+    child_stats = [s.split()[1].strip() for s in info]
+    return child_pids, child_stats
+
+def view_is_available_terminal(view):
+    term_pid, tty = _pid_tty_of_view(view)
+    if term_pid is None or tty is None:
+        raise NotATerminal("view is not a terminal")
+    _, child_stats = _pids_stats_in_tty(term_pid, tty)
+    return not any(s.endswith('+') for s in child_stats)
+
+
 class RunInTerminalView(sublime_plugin.WindowCommand):
     def run(self, target_file=None, split_view=False, close_on_finished=False,
-            do_exec=False, **kwargs):
-        # kwargs.pop("name", None)
+            do_exec=False, use_available=True, **kwargs):
 
         if split_view:
             term_open_cmd = "split_open_terminal_view"
@@ -179,14 +230,17 @@ class RunInTerminalView(sublime_plugin.WindowCommand):
             term_open_cmd = "terminal_view_open"
 
         if do_exec:
+            # this branch shouldn't be used
             cmd = make_cmd(self.window, wrap_bash=False, filename=target_file,
                            close_on_finished=close_on_finished)
             kwargs['do_exec'] = True
             kwargs['shell_cmd'] = cmd
+            kwargs['use_available'] = use_available
             self.window.run_command(term_open_cmd, args=kwargs)
         else:
             cmd = make_cmd(self.window, wrap_bash=False, filename=target_file,
                            close_on_finished=close_on_finished)
+            kwargs['use_available'] = use_available
             self.window.run_command(term_open_cmd, args=kwargs)
             time.sleep(0.0)
             self.window.run_command("terminal_view_send_string",
