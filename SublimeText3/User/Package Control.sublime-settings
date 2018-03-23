@@ -1,5 +1,23 @@
 {
 	"bootstrapped": true,
+	"downloader_precedence":
+	{
+		"linux":
+		[
+			"wget",
+			"urllib",
+			"curl"
+		],
+		"osx":
+		[
+			"curl",
+			"urllib"
+		],
+		"windows":
+		[
+			"wininet"
+		]
+	},
 	"in_process_packages":
 	[
 	],
@@ -26,5 +44,9 @@
 		"Theme - Soda",
 		"UnicodeMath",
 		"Vintage YankStack"
+	],
+	"repositories":
+	[
+		"https://gist.github.com/KristoforMaynard/6804f526f97504d9dd123f4c090624e1/raw/packages.json"
 	]
 }
