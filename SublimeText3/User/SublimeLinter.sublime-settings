@@ -1,17 +1,39 @@
 {
-    // "user": {
-    //     "gutter_theme": "",
-    //     "linters": {
-    //         "pylint": {
-    //             "@disable": false,
-    //             "args": [],
-    //             "disable": "",
-    //             "enable": "",
-    //             "excludes": [],
-    //             "paths": [],
-    //             "rcfile": "",
-    //             "show-codes": false
-    //         }
-    //     }
-    // }
+    "linters": {
+        "pylint": {
+            "args": ["--rcfile", "${packages}/User/pylintrc"],
+        }
+    },
+
+    "kill_old_processes": true,
+
+    "paths": {
+        "linux": ["~/local/anaconda/bin"],
+        "osx": ["~/local/anaconda/bin"],
+        "windows": ["~/local/Anaconda/Scripts"]
+    },
+
+    // "statusbar.counters_template": "({}|{})",
+    "statusbar.counters_template": "",
+
+    "styles": [
+        {
+            "mark_style": "squiggly_underline",
+            "priority": 1,
+            "scope": "region.yellowish markup.changed.sublime_linter markup.warning.sublime_linter",
+            "icon": "triangle",
+            "types": [
+                "warning"
+            ]
+        },
+        {
+            "mark_style": "squiggly_underline",
+            "priority": 1,
+            "scope": "region.redish markup.deleted.sublime_linter markup.error.sublime_linter",
+            "icon": "x",
+            "types": [
+                "error"
+            ]
+        }
+    ]
 }
