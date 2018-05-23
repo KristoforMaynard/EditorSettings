@@ -61,6 +61,26 @@
         "when": "inFilesPicker && inQuickOpen"
     },
     {
+        "key": "cmd+k cmd+b",
+        "command": "workbench.action.toggleSidebarVisibility"
+    },
+    {
+        "key": "alt+w",
+        "command": "unicode-latex.insertMathSymbol",
+    },
+    // vim
+    {
+        "key": "escape",
+        "command": "-extension.vim_escape",
+        "when": "editorTextFocus && vim.active && !inDebugRepl"
+    },
+    {
+        "key": "escape",
+        "command": "extension.vim_escape",
+        "when": "editorTextFocus && vim.active && vim.mode != 'Normal' && !globalMessageVisible && !inDebugRepl"
+    },
+    // movement
+    {
         "key": "cmd+alt+left",
         "command": "workbench.action.navigateBack"
     },
@@ -78,17 +98,10 @@
         "command": "editor.action.previewDeclaration",
         "when": "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
     },
-    {
-        "key": "cmd+k cmd+b",
-        "command": "workbench.action.toggleSidebarVisibility"
-    },
-    {
-        "key": "cmd+b",
-        "command": "-workbench.action.toggleSidebarVisibility"
-    },
+    // build
     {
         "key": "shift+cmd+b",
-        "command": "-workbench.action.tasks.build"
+        "command": "workbench.action.tasks.runTask"
     },
     {
         "key": "ctrl+c",
@@ -96,26 +109,27 @@
         "when": "!terminalFocus"
     },
     {
-        "key": "shift+cmd+b",
-        "command": "workbench.action.tasks.runTask"
-    },
-    {
         "key": "cmd+b",
         "command": "python.execInTerminal",
         "when": "editorTextFocus && editorLangId == python && !editorHasSelection",
     },
+    // for terminals
     {
-        "key": "alt+w",
-        "command": "unicode-latex.insertMathSymbol",
+        "key": "cmd+k cmd+p",
+        "command": "workbench.action.terminal.focus",
+        "when": "!terminalFocus"
     },
     {
-        "key": "escape",
-        "command": "-extension.vim_escape",
-        "when": "editorTextFocus && vim.active && !inDebugRepl"
+        "key": "cmd+k cmd+p",
+        "command": "workbench.action.terminal.toggleTerminal",
+        "when": "terminalFocus"
     },
     {
-        "key": "escape",
-        "command": "extension.vim_escape",
-        "when": "editorTextFocus && vim.active && vim.mode != 'Normal' && !globalMessageVisible && !inDebugRepl"
+        "key": "cmd+k cmd+c",
+        "command": "python.createTerminal"
     },
+    {
+        "key": "cmd+k cmd+n",
+        "command": "workbench.action.terminal.focusNext"
+    }
 ]
