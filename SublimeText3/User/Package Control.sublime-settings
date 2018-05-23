@@ -31,7 +31,7 @@
 		"IcedCoffeeScript",
 		"LaTeXTools",
 		"MagicPython",
-		"Markdown Preview",
+		"MarkdownPreview",
 		"Origami",
 		"Package Control",
 		"PackageResourceViewer",
@@ -42,7 +42,8 @@
 		"TerminalView",
 		"Theme - Soda",
 		"UnicodeMath",
-		"Vintage YankStack"
+		"Vintage YankStack",
+		"ZSH"
 	],
 	"repositories":
 	[
