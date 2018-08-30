@@ -30,7 +30,7 @@
 	"find_selected_text": true,
 	"folder_exclude_patterns":
 	[
-		".*",
+		".git",
 		"__pycache__"
 	],
 	"highlight_modified_tabs": true,
