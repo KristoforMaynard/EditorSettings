@@ -11,24 +11,47 @@
 
 import os
 import subprocess
+import sys
 import time
 
 import sublime
 import sublime_plugin
 
 
+is_windows = sys.platform.startswith("win")
+
+
+interp_lookup = {'python': 'python',
+                 'perl': 'perl',
+                 'bash': 'bash',
+                 'ruby': 'ruby',
+                 'lua': 'lua',
+                 'julia': 'julia',
+                 'make': 'make'
+                }
+ext_lookup = {'.py': '<python> "{filename}"',
+              '.pl': '<perl> "{filename}"',
+              '.sh': '<bash> "{filename}"',
+              '.rb': '<ruby> "{filename}"',
+              '.lua': '<lua> "{filename}"',
+              '.jl': '<julia> "{filename}"',
+              '.bat': '"{filename}"',
+              '.exe': '"{filename}"',
+             }
+
+
 def import_companions():
     try:
-        import TerminalView
+        import Terminus
     except ImportError:
-        TerminalView = None
+        Terminus = None
 
     try:
         from Origami import origami
     except ImportError:
         origami = None
 
-    return TerminalView, origami
+    return Terminus, origami
 
 
 class NotATerminal(TypeError):
@@ -46,7 +69,7 @@ def argmin(seq):
     return min(enumerate(seq), key=lambda x: x[1])[0]
 
 
-class SplitOpenTerminalView(sublime_plugin.WindowCommand):
+class SplitOpenTerminus(sublime_plugin.WindowCommand):
     def run(self, direction="down", always_split=False, split_fraction=0.35,
             use_available=False, do_exec=False, **kwargs):
         window = self.window
@@ -58,15 +81,18 @@ class SplitOpenTerminalView(sublime_plugin.WindowCommand):
         if 'working_dir' in kwargs:
             kwargs['cwd'] = kwargs.pop('working_dir')
 
-        TerminalView, origami = import_companions()
+        if 'config_name' not in kwargs:
+            kwargs['config_name'] = 'Default'
 
-        if TerminalView is None:
+        Terminus, origami = import_companions()
+
+        if Terminus is None:
             sublime.error_message("split-open terminal requires the "
-                                  "TerminalView plugin")
+                                  "Terminus plugin")
             return
 
         if origami is None:
-            window.run_command("terminal_view_open", args=kwargs)
+            window.run_command("terminus_open", args=kwargs)
             _emit_no_origami_msg()
         else:
             cells = window.get_layout()['cells']
@@ -93,7 +119,7 @@ class SplitOpenTerminalView(sublime_plugin.WindowCommand):
 
             extreme_group_views = window.views_in_group(extreme_group)
             extreme_group_has_views = bool(extreme_group_views)
-            extreme_group_has_terminal = any(view.settings().has('terminal_view_activate_args')
+            extreme_group_has_terminal = any(view.settings().get('terminus_view', False)
                                              for view in extreme_group_views)
             # print("cells:", cells)
             # print("current_cell:", current_cell)
@@ -120,7 +146,7 @@ class SplitOpenTerminalView(sublime_plugin.WindowCommand):
                         pass
                 if available_view is not None:
                     window.focus_view(available_view)
-                    window.run_command("terminal_view_keypress",
+                    window.run_command("terminus_keypress",
                                        args={"key": "u", "ctrl": True})
                     # FIXME: returning early here is poor form
                     return
@@ -144,90 +170,120 @@ class SplitOpenTerminalView(sublime_plugin.WindowCommand):
 
             if do_exec:
                 kwargs['working_dir'] = kwargs.pop('cwd', None)
-                sublime.error_message("TerminalViewAddon: don't use do_exec")
-                # window.run_command("terminal_view_exec", args=kwargs)
+                sublime.error_message("TerminusAddon: don't use do_exec")
+                # window.run_command("terminus_exec", args=kwargs)
             else:
-                window.run_command("terminal_view_open", args=kwargs)
+                window.run_command("terminus_open", args=kwargs)
 
 
-def make_cmd(window, wrap_bash=True, filename=None, close_on_finished=False):
+def make_cmd(window, wrap_bash=False, filename=None, close_on_finished=False):
     v = window.extract_variables()
     platform = v['platform'].strip().lower()
     if filename is None:
         filename = v['file']
 
     if close_on_finished:
-        wrap_bash = True
-        next_cmd = '; logout'
+        if is_windows:
+            next_cmd = ' & exit'
+        else:
+            wrap_bash = True
+            next_cmd = '; logout'
     else:
         next_cmd = ''
 
     root, ext = os.path.splitext(os.path.basename(filename))
     ext = ext.strip().lower()
-    if os.access(filename, os.X_OK):
-        runwith = ''
-    else:
-        ext_lookup = {'.py': 'python', '.pl': 'perl', '.sh': 'bash'}
-        if ext in ext_lookup:
-            runwith = ext_lookup[ext]
-        elif (root.strip().lower(), ext) == ('makefile', ''):
-            runwith = 'make'
-        else:
-            # sublime.error_message("Not sure how to run: {0}".format(filename))
-            runwith = ''
 
-    if platform in ('osx', 'linux'):
-        if runwith:
-            cmd = '"{0}" "{1}"'.format(runwith, filename)
-        else:
-            cmd = '"{0}"'.format(filename)
+    if ext in ext_lookup:
+        cmd = ext_lookup[ext].format(filename=filename)
+    elif (root.strip().lower(), ext) == ('makefile', ''):
+        cmd = '<make>'
+    else:
+        # sublime.error_message("Not sure how to run: {0}".format(filename))
+        cmd = ''
+
+    if cmd.startswith('<'):
+        stop = cmd.find('>')
+        try:
+            interp = interp_lookup[cmd[1:stop]]
+        except KeyError:
+            interp = cmd[1:stop]
+        cmd = interp + cmd[stop + 1:]
+
+    if is_windows:
+        if not cmd:
+            raise ValueError("TerminusAddon: I don't know how to start '{0}'"
+                             "on Windows".format(filename))
+        if wrap_bash:
+            print("TerminusAddon: Can't wrap commands in bash on windows!")
+    else:
+        if not cmd:
+            if os.access(filename, os.X_OK):
+                cmd = '"{filename}"'.format(filename=filename)
+            else:
+                raise ValueError("TerminusAddon: I don't know how to start '{0}'"
+                                 "on *nix".format(filename))
 
         if wrap_bash:
             cmd = "bash -lc '{0}'{1}".format(cmd, next_cmd)
-    else:
-        sublime.error_message("TerminalViewAddon does not work on platform "
-                              "'{0}'".format(platform))
-        cmd = None
 
     return cmd
 
 
 def _pid_tty_of_view(view):
-    TerminalView, _ = import_companions()
-    t = TerminalView.TerminalView.TerminalViewManager.load_from_id(view.id())
-    if t is None:
+    Terminus, _ = import_companions()
+    term = Terminus.terminus.terminal.Terminal.from_id(view.id())
+    if not term:
         term_pid = None
         tty = None
     else:
-        term_pid = str(t._shell._shell_pid)
-        tty = subprocess.check_output(['ps', '-p', term_pid, '-o', 'tt']
-                                      ).decode().splitlines()[1].strip()
+        term_pid = str(term.process.pid)
+        if is_windows:
+            tty = None
+        else:
+            tty = subprocess.check_output(['ps', '-p', term_pid, '-o', 'tt']
+                                          ).decode().splitlines()[1].strip()
     return term_pid, tty
 
 def _pids_stats_in_tty(term_pid, tty):
-    info = subprocess.check_output(['ps', '-t', tty, '-o', 'pid', '-o', 'stat',
-                                    '-o', 'command']).decode().splitlines()[1:]
-    info = [s.strip() for s in info if not s.strip().startswith(term_pid)]
-    child_pids = [s.split()[0].strip() for s in info]
-    child_stats = [s.split()[1].strip() for s in info]
+    if is_windows:
+        info = subprocess.check_output(['wmic', 'process', 'where',
+                                        'ParentProcessId=' + term_pid, 'get',
+                                        'Name,ProcessId,Status']
+                                        ).decode().splitlines()[1:]
+        info = [s.strip() for s in info]
+        child_pids = [s.split()[1].strip() for s in info]
+        child_stats = [s.split()[2].strip() if len(s.split()) > 2 else ''
+                       for s in info]
+    else:
+        info = subprocess.check_output(['ps', '-t', tty, '-o', 'pid', '-o', 'stat',
+                                        '-o', 'command']).decode().splitlines()[1:]
+        info = [s.strip() for s in info if not s.strip().startswith(term_pid)]
+        child_pids = [s.split()[0].strip() for s in info]
+        child_stats = [s.split()[1].strip() for s in info]
+
     return child_pids, child_stats
 
 def view_is_available_terminal(view):
     term_pid, tty = _pid_tty_of_view(view)
     if term_pid is None or tty is None:
         raise NotATerminal("view is not a terminal")
-    _, child_stats = _pids_stats_in_tty(term_pid, tty)
-    return not any(s.endswith('+') for s in child_stats)
+    child_pids, child_stats = _pids_stats_in_tty(term_pid, tty)
+
+    if is_windows:
+        return bool(child_pids)
+    else:
+        return not any(s.endswith('+') for s in child_stats)
 
 
-class RunInTerminalView(sublime_plugin.WindowCommand):
+class RunInTerminus(sublime_plugin.WindowCommand):
     def run(self, target_file=None, split_view=False, close_on_finished=False,
             do_exec=False, use_available=True, **kwargs):
 
         if split_view:
-            term_open_cmd = "split_open_terminal_view"
+            term_open_cmd = "split_open_terminus"
         else:
-            term_open_cmd = "terminal_view_open"
+            term_open_cmd = "terminus_open"
 
         if do_exec:
             # this branch shouldn't be used
@@ -242,6 +298,5 @@ class RunInTerminalView(sublime_plugin.WindowCommand):
                            close_on_finished=close_on_finished)
             kwargs['use_available'] = use_available
             self.window.run_command(term_open_cmd, args=kwargs)
-            time.sleep(0.0)
-            self.window.run_command("terminal_view_send_string",
+            self.window.run_command("terminus_send_string",
                                     args={"string": cmd + '\n'})

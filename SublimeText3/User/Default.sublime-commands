@@ -1,9 +1,9 @@
 [
-  { "command": "split_open_terminal_view",
+  { "command": "split_open_terminus",
     "args": {"direction": "down"},
     "caption": "Open New Terminal (Below)"
   },
-  { "command": "run_in_terminal_view",
+  { "command": "run_in_terminus",
     "args": {"split_view": true,
              "direction": "down"},
     "caption": "Run File In Terminal (Below)"

@@ -39,7 +39,7 @@
     "context": [{"key": "terminus_view"}]
   }
 
-  // alt+left / alt+right might already work in linux
+  // alt+left / alt+right might already work in windows
   // {"keys": ["alt+left"], "command": "terminus_keypress",
   //   "args": {"key": "b", "alt": true},
   //   "context": [{"key": "terminus_view"}]

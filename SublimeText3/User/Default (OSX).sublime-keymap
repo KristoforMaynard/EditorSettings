@@ -72,22 +72,34 @@
   // { "keys": ["tab"], "context": [ {"key": "unicode_math_syntax_allowed"}, {"key": "unicode_math_can_convert"} ], "command": "unicode_math_convert" },
   // { "keys": ["tab"], "context": [ {"key": "unicode_math_syntax_allowed"}, {"key": "unicode_math_can_convert"} ], "command": "unicode_math_complete" },
 
-  { "keys": ["super+s"], "command": "save" },
-
-  // Make TerminalView work
-  {"keys": ["ctrl+c"], "command": "terminal_view_keypress",
-    "args": {"key": "c", "ctrl": true},
-    "context": [{"key": "setting.terminal_view"}]
-  },
-
-  // TerminalViewAddon
+  // TerminusAddon
   { "keys": ["super+k", "super+t"],
-    "command": "split_open_terminal_view",
+    "command": "split_open_terminus",
     "args": {"direction": "down"}
   },
   // { "keys": ["super+alt+b"],
-  //   "command": "run_in_terminal_view",
+  //   "command": "run_in_terminus",
   //   "args": {"split_view": true,
   //            "direction": "down"}
-  // }
+  // },
+
+  // Terminus keys
+  { "keys": ["super+alt+`"],
+    "command": "toggle_terminus_panel"
+  },
+
+  {"keys": ["ctrl+c"], "command": "terminus_keypress",
+    "args": {"key": "c", "ctrl": true},
+    "context": [{"key": "terminus_view"}]
+  },
+
+  {"keys": ["alt+left"], "command": "terminus_keypress",
+    "args": {"key": "b", "alt": true},
+    "context": [{"key": "terminus_view"}]
+  },
+  {"keys": ["alt+right"], "command": "terminus_keypress",
+    "args": {"key": "f", "alt": true},
+    "context": [{"key": "terminus_view"}]
+  }
+
 ]
