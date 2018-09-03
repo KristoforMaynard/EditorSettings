@@ -16,37 +16,5 @@
                  {"key": "unicode_math_can_convert"} ],
     "command": "insert",
     "args": {"characters": " "}
-  },
-
-  // TerminusAddon
-  { "keys": ["ctrl+k", "ctrl+t"],
-    "command": "split_open_terminus",
-    "args": {"direction": "down"}
-  },
-  // { "keys": ["ctrl+alt+b"],
-  //   "command": "run_in_terminus",
-  //   "args": {"split_view": true,
-  //            "direction": "down"}
-  // },
-
-  // Terminus keys
-  { "keys": ["ctrl+alt+`"],
-    "command": "toggle_terminus_panel"
-  },
-
-  {"keys": ["ctrl+c"], "command": "terminus_keypress",
-    "args": {"key": "c", "ctrl": true},
-    "context": [{"key": "terminus_view"}]
   }
-
-  // alt+left / alt+right might already work in windows
-  // {"keys": ["alt+left"], "command": "terminus_keypress",
-  //   "args": {"key": "b", "alt": true},
-  //   "context": [{"key": "terminus_view"}]
-  // },
-  // {"keys": ["alt+right"], "command": "terminus_keypress",
-  //   "args": {"key": "f", "alt": true},
-  //   "context": [{"key": "terminus_view"}]
-  // }
-
 ]

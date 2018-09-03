@@ -40,6 +40,7 @@
 		"SublimeLinter",
 		"SublimeLinter-pylint",
 		"Terminus",
+		"TerminusAddons",
 		"Theme - Soda",
 		"UnicodeMath",
 		"Vintage YankStack",
@@ -47,6 +48,6 @@
 	],
 	"repositories":
 	[
-		"https://gist.github.com/KristoforMaynard/6804f526f97504d9dd123f4c090624e1/raw/packages.json"
+		"https://github.com/KristoforMaynard/TerminusAddons"
 	]
 }
