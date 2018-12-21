@@ -7,7 +7,7 @@ import sublime
 import sublime_plugin
 
 class PlatformSettingsEventListener(sublime_plugin.EventListener):
-    def check_settings(self, view, first=False):
+    def check_settings(self, view):
         s = view.settings()
         default_keys = ["plat.${platform}", "plat.${platform}.user",
                         "plat.${platform}.syntax", "plat.${platform}.project",
@@ -16,10 +16,7 @@ class PlatformSettingsEventListener(sublime_plugin.EventListener):
         if not keys:
             keys = default_keys
 
-        if not first:
-            first = not s.get("platform_settings_was_here", False)
-        if not first:
-            s.clear_on_change("platform_settings")
+        s.clear_on_change("platform_settings")
 
         platform_settings = {}
         for key in keys:
@@ -46,8 +43,8 @@ class PlatformSettingsEventListener(sublime_plugin.EventListener):
 
     def on_new(self, view):
         # print("PlatformSettingsEventListener:: on_new")
-        self.check_settings(view, True)
+        self.check_settings(view)
 
     def on_load(self, view):
         # print("PlatformSettingsEventListener:: on_load")
-        self.check_settings(view, True)
+        self.check_settings(view)
