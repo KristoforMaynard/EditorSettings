@@ -21,6 +21,10 @@
   { "keys": ["ctrl+alt+up"], "command": "select_lines", "args": {"forward": false} },
   { "keys": ["ctrl+alt+down"], "command": "select_lines", "args": {"forward": true} },
 
+  // Origami
+  // { "keys": ["super+k", "w"], "command": "destroy_pane", "args": {"direction": "self"} },
+  { "keys": ["super+k", "super+w"], "command": "destroy_pane", "args": {"direction": "self"} },
+
   // this will override vintage ctrl+c so i'm not always going into
   // command mode
   { "keys": ["ctrl+c"], "command": "exec", "args": {"kill": true} },

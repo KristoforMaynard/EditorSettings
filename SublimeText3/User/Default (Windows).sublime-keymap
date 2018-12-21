@@ -9,6 +9,11 @@
       ]
     }
   },
+
+  // Origami
+  // { "keys": ["ctrl+k", "w"], "command": "destroy_pane", "args": {"direction": "self"} },
+  { "keys": ["ctrl+k", "ctrl+w"], "command": "destroy_pane", "args": {"direction": "self"} },
+
   // // for the UnicodeMath plugin... this plugin is pretty cool
   // { "keys": ["space"], "command": "insert", "args": {"characters": " "} },
   { "keys": [" "],
