@@ -27,7 +27,11 @@
 
   // this will override vintage ctrl+c so i'm not always going into
   // command mode
-  { "keys": ["ctrl+c"], "command": "exec", "args": {"kill": true} },
+  { "keys": ["ctrl+c"], "command": "exec", "args": {"kill": true},
+    "context": [
+        {"key": "setting.terminus_view", "operator": "not_equal", "operand": true}
+    ]
+  },
 
   { "keys": ["alt+tab"], "command": "reindent", "args": {"single_line": true} },
   { "keys": ["shift+alt+tab"], "command": "reindent", "args": {"single_line": false} },
