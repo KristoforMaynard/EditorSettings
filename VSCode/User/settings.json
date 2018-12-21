@@ -33,8 +33,10 @@
         //     "statusBar.background": "#660000"
         // },
     },
-    "workbench.activityBar.visible": false,
+    "workbench.activityBar.visible": true,
     "explorer.confirmDelete": false,
     "workbench.startupEditor": "newUntitledFile",
-    "workbench.colorTheme": "XKod-Dark"
+    "workbench.colorTheme": "XKod-Dark",
+    "files.hotExit": "onExitAndWindowClose",
+    "breadcrumbs.enabled": true
 }
