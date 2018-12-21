@@ -1,4 +1,9 @@
 {
-	"theme": "monokai-soda",
-  "view_settings": {"rulers": []}
+	"theme": "chalk",
+	"view_settings":
+	{
+		"rulers":
+		[
+		]
+	}
 }
